@@ -1,13 +1,13 @@
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ReaderWriter extends Thread {
+public class ReaderWriter2 extends Thread {
     private boolean isWriter;
-    private final MutexImpl mutex;
+    private final MutexImpl2 mutex;
     private final int id;
 
     private Logger log = new Logger(this);
 
-    public ReaderWriter(int id, boolean isWriter, MutexImpl mutex) {
+    public ReaderWriter2(int id, boolean isWriter, MutexImpl2 mutex) {
         super();
         this.isWriter = isWriter;
         this.mutex = mutex;
@@ -16,29 +16,29 @@ public class ReaderWriter extends Thread {
 
     @Override
     public void run() {
-        log.log("Start");
+        //log.log("Start2");
         if (isWriter) {
             writer();
         } else {
             reader();
         }
-        log.log("========================================================");
+        //log.log("========================================================");
     }
 
     private void writer() {
         try {
-            log.log("Writing");
+            //log.log("Writing");
             mutex.startAccess(); // Acesso único à região crítica, bloqueia para leitura e escrita
-            log.log("I was able to get mutex");
+            //log.log("I was able to get mutex");
             for (int i = 0; i < 100; i++) {
                 int randomPos = (int) zeroToUpperBound(mutex.texts.size());
                 mutex.texts.set(randomPos, "MODIFICADO");
             }
-            log.log("Sleeping...");
+            //log.log("Sleeping...");
             Thread.sleep(1);
-            log.log("Woke up");
+            //log.log("Woke up");
             mutex.endAccess(); // Libera o acesso
-            log.log("End writing");
+            //log.log("End writing");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -47,18 +47,18 @@ public class ReaderWriter extends Thread {
 
     private void reader() {
         try {
-            log.log("Reading");
+            //log.log("Reading");
             mutex.startAccess(); // Acesso único à região crítica, bloqueia para leitura e escrita
-            log.log("I was able to get mutex");
+            //log.log("I was able to get mutex");
             for (int i = 0; i < 100; i++) {
                 int randomPos = (int) zeroToUpperBound(mutex.texts.size());
                 String a = mutex.texts.get(randomPos);
             }
-            log.log("Sleeping...");
+            //log.log("Sleeping...");
             Thread.sleep(1);
-            log.log("Woke up");
+            //log.log("Woke up");
             mutex.endAccess(); // Libera o acesso
-            log.log("End reading");
+            //log.log("End reading");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

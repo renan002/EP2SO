@@ -13,31 +13,32 @@ public class ReaderWriter extends Thread {
         this.mutex = mutex;
         this.id = id;
     }
+
     @Override
     public void run() {
-        log.log("Start");
+        //log.log("Start");
         if (isWriter) {
             writer();
         } else {
             reader();
         }
-        log.log("========================================================");
+        //log.log("========================================================");
     }
 
     private void writer() {
         try {
-            log.log("Writing");
+            //log.log("Writing");
             mutex.startWrite();
-            log.log("I was able to get mutex");
+            //log.log("I was able to get mutex");
             for (int i = 0; i < 100; i++) {
                 int randomPos = (int) zeroToUpperBound(mutex.texts.size());
                 mutex.texts.set(randomPos, "MODIFICADO");
             }
-            log.log("Sleeping...");
+            //log.log("Sleeping...");
             Thread.sleep(1);
-            log.log("Woke up");
+            //log.log("Woke up");
             mutex.endWrite();
-            log.log("End writing");
+            //log.log("End writing");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -46,18 +47,18 @@ public class ReaderWriter extends Thread {
 
     private void reader() {
         try {
-            log.log("Reading");
+            //log.log("Reading");
             mutex.startRead();
-            log.log("I was able to get mutex");
+            //log.log("I was able to get mutex");
             for (int i = 0; i < 100; i++) {
                 int randomPos = (int) zeroToUpperBound(mutex.texts.size());
                 String a = mutex.texts.get(randomPos);
             }
-            log.log("Sleeping...");
+            //log.log("Sleeping...");
             Thread.sleep(1);
-            log.log("Woke up");
+            //log.log("Woke up");
             mutex.endRead();
-            log.log("End reading");
+            //log.log("End reading");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

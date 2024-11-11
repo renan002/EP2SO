@@ -1,12 +1,12 @@
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class MutexImpl {
+public class MutexImpl2 {
     private final Semaphore lock = new Semaphore(1); // Controle único de acesso à base
 
     public final List<String> texts;
 
-    public MutexImpl(List<String> texts) {
+    public MutexImpl2(List<String> texts) {
         this.texts = texts;
     }
 
